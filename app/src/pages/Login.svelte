@@ -149,7 +149,8 @@
         try {
             const res = await trpc.event.get.query({ code: event.code });
 
-            console.log(res.teams);
+            debugger;
+            console.log(res);
 
             authStore.set({ ...auth, eventToken: res.token });
             eventStore.set({
@@ -159,6 +160,7 @@
             });
             eventCode = event.code;
             eventPin = res.pin;
+            debugger;
         } catch (err: any) {
             toast("Error", err.message);
             console.error(err);

@@ -27,6 +27,8 @@ try {
 }
 
 export const eventStore = writable<Event>(JSON.parse(initialEvent));
+debugger;
 eventStore.subscribe((value) => {
     localStorage.setItem('event', JSON.stringify(value));
+    debugger;
 });

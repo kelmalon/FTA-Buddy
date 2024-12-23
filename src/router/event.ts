@@ -69,12 +69,15 @@ export const eventRouter = router({
 
         const eventDB = (await db.select({
             code: events.code,
+            pin: events.pin,
             token: events.token,
             teams: events.teams,
             checklist: events.checklist,
             users: events.users,
-            archived: events.archived
+            archived: events.archived,
         }).from(events).where(eq(events.code, input.code)))[0];
+
+        debugger;
 
         if (eventDB.archived) throw new TRPCError({ code: 'BAD_REQUEST', message: 'Event has been archived' });
 

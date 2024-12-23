@@ -41,22 +41,27 @@
 	const pageIsPublicLog = window.location.pathname.startsWith("/app/logs/") && window.location.pathname.split("/")[3].length == 36;
 
 	function redirectForAuth(a: typeof auth) {
-		console.log(!a.token, a.eventToken, window.location.pathname);
+		//debugger;
+		console.log(!a.token, !a.eventToken, window.location.pathname);
 
-		if (a.token) {
-			if (pageIsPublicLog) {
-				// Public match logs
-			} else if (!a.eventToken && (window.location.pathname == "/app/" || window.location.pathname == "/app")) {
-				navigate("/app/login");
-			} else if (!publicPaths.includes(window.location.pathname)) {
-				navigate("/app/login");
+		if (!publicPaths.includes(window.location.pathname)){ //user trying to acces protected page
+			if (!a.token) { //user is not logged in
+				if (!pageIsPublicLog){ //user is trying to access private page
+					//debugger;
+					navigate("/app/login")
+				} else if (!a.eventToken) { //user is trying to access public log with no event token
+					//debugger;
+					navigate("/app/login")
+				}
+				//user is accessing public log with event token
+			} else if (!a.eventToken) { //user is logged in but does not have event token
+				//debugger;
+				navigate("/app/login")
 			}
-		} else {
-			if (pageIsPublicLog) {
-				// Public match logs
-			} else if (!publicPaths.includes(window.location.pathname) || window.location.pathname == "/app/" || window.location.pathname == "/app") {
-				navigate("/app/login");
-			}
+			//user is logged in and has event token
+		} else if (!a.token && (window.location.pathname == "/app" || window.location.pathname == "/app/")) { //user is accessing public path that is /app or /app/
+			//debugger;
+			navigate("/app/login")
 		}
 	}
 
